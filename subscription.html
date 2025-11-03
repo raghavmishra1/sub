@@ -1,0 +1,22 @@
+<form id="subscribe-form">
+    <input type="text" id="couponCode" placeholder="Enter Coupon Code (Optional)">
+    <button type="submit">Subscribe</button>
+</form>
+
+<script>
+document.getElementById('subscribe-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const token = 'payment-token';  // Stripe payment token from frontend
+    const planId = 'basic';  // Selected plan
+    const couponCode = document.getElementById('couponCode').value;
+
+    const response = await fetch('/content/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+        body: JSON.stringify({ token, planId, couponCode })
+    });
+
+    const result = await response.json();
+    alert(result.message);
+});
+</script>
